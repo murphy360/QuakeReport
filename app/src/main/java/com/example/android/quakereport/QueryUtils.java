@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -78,5 +79,7 @@ public final class QueryUtils {
         // Return the list of earthquakes
         return earthquakes;
     }
+
+
 
 }

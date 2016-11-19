@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,13 +35,16 @@ import java.util.Date;
  * based on a data source, which is a list of {@link Earthquake} objects.
  */
 public class EarthquakeListViewAdapter extends BaseAdapter {
+    private static final String LOCATION_SEPARATOR = "of";
     private LayoutInflater mInflator;
     private ArrayList<Earthquake> quakeList;
     public static final String TAG = "UASDeviceAdapter";
+    private Context context;
 
     public EarthquakeListViewAdapter(Context context, ArrayList<Earthquake> quakeList) {
            super();
         this.quakeList = quakeList;
+        this.context = context;
 
     }
 
@@ -71,7 +75,7 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         Earthquake earthquake = getItem(position);
 
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude_text_view);
-        magnitudeTextView.setText(earthquake.getMagnitude() + " ");
+        magnitudeTextView.setText(formatMagnitude(earthquake.getMagnitude()));
 
         TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_text_view);
         locationTextView.setText(splitOffsetLocation(earthquake.getLocation()));
@@ -114,23 +118,29 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
 
     private String splitOffsetLocation(String location){
 
-        String[] parts = location.split("(?<=of)");
-        String part1 = parts[0]; // 004-
-        //String part2 = parts[1]; // 034556
+        String[] parts = location.split("(?<=" + LOCATION_SEPARATOR + ")");
         if(parts.length == 1){
-           return "";
+           return  context.getString(R.string.near_the);
         }
-        return part1;
+        return parts[0];
     }
 
     private String splitPrimaryLocation(String location){
 
-        String[] parts = location.split("(?=of)");
+        String[] parts = location.split("(?<=" + LOCATION_SEPARATOR + ")");
         Log.d(TAG, "splitPrimaryLocation: " + parts.length);
-
         if(parts.length > 1){
             return parts[1];
         }
         return parts[0];
+    }
+
+    /**
+     * Return the formatted magnitude string showing 1 decimal place (i.e. "3.2")
+     * from a decimal magnitude value.
+     */
+    private String formatMagnitude(double magnitude) {
+        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
+        return magnitudeFormat.format(magnitude);
     }
 }
