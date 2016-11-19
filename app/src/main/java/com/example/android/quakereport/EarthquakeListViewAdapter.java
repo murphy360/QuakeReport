@@ -17,6 +17,7 @@ package com.example.android.quakereport;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,10 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         magnitudeTextView.setText(earthquake.getMagnitude() + " ");
 
         TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_text_view);
-        locationTextView.setText("" + earthquake.getLocation());
+        locationTextView.setText(splitOffsetLocation(earthquake.getLocation()));
+
+        TextView locationPrimaryTextView = (TextView) listItemView.findViewById(R.id.location_primary_text_view);
+        locationPrimaryTextView.setText(splitPrimaryLocation(earthquake.getLocation()));
 
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_text_view);
         dateTextView.setText(formatDate(earthquake.getDate()));
@@ -106,5 +110,27 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
         return timeFormat.format(dateObject);
+    }
+
+    private String splitOffsetLocation(String location){
+
+        String[] parts = location.split("(?<=of)");
+        String part1 = parts[0]; // 004-
+        //String part2 = parts[1]; // 034556
+        if(parts.length == 1){
+           return "";
+        }
+        return part1;
+    }
+
+    private String splitPrimaryLocation(String location){
+
+        String[] parts = location.split("(?=of)");
+        Log.d(TAG, "splitPrimaryLocation: " + parts.length);
+
+        if(parts.length > 1){
+            return parts[1];
+        }
+        return parts[0];
     }
 }

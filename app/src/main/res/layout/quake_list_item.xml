@@ -40,18 +40,31 @@
             android:textAppearance="?android:textAppearanceMedium"
             android:textStyle="bold"
             tools:text="7.2" />
-
-        <TextView
-            android:id="@+id/location_text_view"
+        <LinearLayout
+            android:id="@+id/date_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="?android:textAppearanceSmall"
-            tools:text="San Francisco" />
-
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/location_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="12dp"
+                tools:text="70nm NW of" />
+            <TextView
+                android:id="@+id/location_primary_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="?android:textAppearanceSmall"
+                tools:text="San Francisco" />
+        </LinearLayout>
         <LinearLayout
-            android:id="@+id/date_container"
+            android:id="@+id/location_container"
             android:layout_width="128dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -64,6 +77,8 @@
                 android:gravity="left"
                 android:textAppearance="?android:textAppearanceSmall"
                 tools:text="Feb 2, 2016" />
+
+
 
             <TextView
                 android:id="@+id/time_text_view"
