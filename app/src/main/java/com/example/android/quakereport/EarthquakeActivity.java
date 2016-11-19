@@ -52,8 +52,6 @@ public class EarthquakeActivity extends AppCompatActivity {
         earthquakeListView.setClickable(true);
 
 
-
-
         //When an Item in the list is clicked.
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
