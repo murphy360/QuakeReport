@@ -24,7 +24,9 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * {@link EarthquakeListViewAdapter} is an {@link ArrayAdapter} that can provide the layout for each list item
@@ -74,7 +76,10 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         locationTextView.setText("" + earthquake.getLocation());
 
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_text_view);
-        dateTextView.setText("" + earthquake.getDate());
+        dateTextView.setText(formatDate(earthquake.getDate()));
+
+        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time_text_view);
+        timeTextView.setText(formatTime(earthquake.getDate()));
 
         return listItemView;
     }
@@ -85,5 +90,21 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         quakeList.add(earthquake);
 
 
+    }
+
+    /**
+     * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
+     */
+    private String formatDate(Date dateObject) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
+        return dateFormat.format(dateObject);
+    }
+
+    /**
+     * Return the formatted date string (i.e. "4:30 PM") from a Date object.
+     */
+    private String formatTime(Date dateObject) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        return timeFormat.format(dateObject);
     }
 }
