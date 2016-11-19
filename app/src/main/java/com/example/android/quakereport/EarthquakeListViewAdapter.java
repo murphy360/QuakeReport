@@ -77,7 +77,7 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         Earthquake earthquake = getItem(position);
 
 
-        TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude_text_view);
+        TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
         magnitudeTextView.setText(formatMagnitude(earthquake.getMagnitude()));
         // Set the proper background color on the magnitude circle.
         // Fetch the background from the TextView, which is a GradientDrawable.
@@ -89,16 +89,16 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         // Set the color on the magnitude circle
         magnitudeCircle.setColor(magnitudeColor);
 
-        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_text_view);
+        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_offset);
         locationTextView.setText(splitOffsetLocation(earthquake.getLocation()));
 
-        TextView locationPrimaryTextView = (TextView) listItemView.findViewById(R.id.location_primary_text_view);
+        TextView locationPrimaryTextView = (TextView) listItemView.findViewById(R.id.primary_location);
         locationPrimaryTextView.setText(splitPrimaryLocation(earthquake.getLocation()));
 
-        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_text_view);
+        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
         dateTextView.setText(formatDate(earthquake.getDate()));
 
-        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time_text_view);
+        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
         timeTextView.setText(formatTime(earthquake.getDate()));
 
         return listItemView;

@@ -11,11 +11,14 @@ public class Earthquake extends Object {
     private String location;
     private Date date;
 
+    private String url;
 
-    public Earthquake(double magnitude, String location, Date date) {
+
+    public Earthquake(double magnitude, String location, Date date, String url) {
         this.magnitude = magnitude;
         this. location = location;
         this.date = date;
+        this.url = url;
     }
 
     public String getLocation() {
@@ -42,5 +45,15 @@ public class Earthquake extends Object {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 
 }

@@ -68,7 +68,9 @@ public final class QueryUtils {
                 Log.d(TAG + " mag: ", mag.toString());
                 String location = properties.getString("place");
                 Long timeMil = properties.getLong("time");
-                earthquakes.add(new Earthquake(mag, location, new Date(timeMil)));
+
+                String url = properties.getString("url");
+                earthquakes.add(new Earthquake(mag, location, new Date(timeMil), url));
             }
 
         } catch (JSONException e) {
