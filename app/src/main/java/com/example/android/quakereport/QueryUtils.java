@@ -24,7 +24,6 @@ public final class QueryUtils {
 
     private static final String TAG = "QUERYUTILS";
 
-    private static final String thisUrl = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
 
     /**
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
@@ -56,8 +55,9 @@ public final class QueryUtils {
     /**
      * Return a list of {@link Earthquake} objects that has been built up from
      * parsing a JSON response.
+     * @param requestUrl
      */
-    public static ArrayList<Earthquake> extractEarthquakes() {
+    public static ArrayList<Earthquake> extractEarthquakes(String requestUrl) {
         Log.d(TAG, "extractEarthquakes: ");
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Earthquake> earthquakes = new ArrayList<>();
@@ -67,7 +67,7 @@ public final class QueryUtils {
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
-            JSONObject response = new JSONObject(fetchEarthquakeData(thisUrl));
+            JSONObject response = new JSONObject(fetchEarthquakeData(requestUrl));
             
             JSONArray earthQuakeObjects = response.getJSONArray("features");
             Log.d(TAG, earthQuakeObjects.toString());

@@ -31,6 +31,7 @@ public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     private static final String TAG = "Earthquake Activity";
+    private static final String USGS_REQUEST_URL = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
 
     ArrayList<Earthquake> earthquakes;
 
@@ -41,7 +42,7 @@ public class EarthquakeActivity extends AppCompatActivity {
 
         earthquakes = new ArrayList<>();
 
-        new DownloadTask().execute("");
+        new DownloadTask().execute(USGS_REQUEST_URL);
         updateUI();
 
 
@@ -88,7 +89,7 @@ public class EarthquakeActivity extends AppCompatActivity {
                 return null;
             }
 
-            return QueryUtils.extractEarthquakes();//TODO add urls[0]
+            return QueryUtils.extractEarthquakes(urls[0]);//TODO add urls[0]
         }
 
         /**
