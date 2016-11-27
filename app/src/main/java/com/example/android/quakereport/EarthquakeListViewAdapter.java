@@ -181,4 +181,12 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
         DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
         return magnitudeFormat.format(magnitude);
     }
+
+    public void clear(){
+        quakeList.clear();
+    }
+
+    public void add(ArrayList<Earthquake> earthquakes) {
+        quakeList.addAll(earthquakes);
+    }
 }
