@@ -17,8 +17,10 @@ package com.example.android.quakereport;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -28,16 +30,24 @@ import java.util.ArrayList;
 public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
+    private static final String TAG = "Earthquake Activity";
+
+    ArrayList<Earthquake> earthquakes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list of earthquake locations.
-        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
+        earthquakes = new ArrayList<>();
+
+        new DownloadTask().execute("");
+        updateUI();
 
 
+    }
+
+    private void updateUI() {
         // Find a reference to the {@link ListView} in the layout
         final ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
@@ -63,5 +73,39 @@ public class EarthquakeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    /**
+     * Implementation of AsyncTask, to fetch the data in the background away from
+     * the UI thread.
+     */
+    private class DownloadTask extends AsyncTask<String, Void, ArrayList<Earthquake>> {
+
+        @Override
+        protected ArrayList<Earthquake> doInBackground(String... urls) {
+            Log.d(TAG, "doInBackground: ");
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+
+            return QueryUtils.extractEarthquakes();//TODO add urls[0]
+        }
+
+        /**
+         * Uses the logging framework to display the output of the fetch
+         * operation in the log fragment.
+         */
+        @Override
+        protected void onPostExecute(ArrayList<Earthquake> result) {
+            Log.d(TAG, "onPostExecute:");
+            // If there is no result, do nothing.
+            if (result == null) {
+                return;
+            }
+            Log.i(TAG, result.toString());
+            // Update the information displayed to the user.
+            earthquakes = result;
+            updateUI();
+        }
     }
 }
