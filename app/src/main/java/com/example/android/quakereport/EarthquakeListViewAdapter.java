@@ -40,7 +40,7 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
     private static final String LOCATION_SEPARATOR = "of";
     private LayoutInflater mInflator;
     private ArrayList<Earthquake> quakeList;
-    public static final String TAG = "UASDeviceAdapter";
+    public static final String TAG = "EarthquakeLVAdapter";
     private Context context;
 
     public EarthquakeListViewAdapter(Context context, ArrayList<Earthquake> quakeList) {
@@ -107,7 +107,6 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
     private int getMagnitudeColor(double magnitude) {
         int magnitudeLevel = (int) magnitude;
         int magnitudeColorResourceId;
-        Log.d(TAG, "getMagnitudeColor: " +magnitudeLevel);
         if (magnitudeLevel > 10) {magnitudeLevel = 10;}
         switch(magnitudeLevel){
             case 1: magnitudeColorResourceId = R.color.magnitude1;
@@ -166,7 +165,6 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
     private String splitPrimaryLocation(String location){
 
         String[] parts = location.split("(?<=" + LOCATION_SEPARATOR + ")");
-        Log.d(TAG, "splitPrimaryLocation: " + parts.length);
         if(parts.length > 1){
             return parts[1];
         }
@@ -187,6 +185,11 @@ public class EarthquakeListViewAdapter extends BaseAdapter {
     }
 
     public void add(ArrayList<Earthquake> earthquakes) {
-        quakeList.addAll(earthquakes);
+        Log.d(TAG, "add: " + earthquakes.size());
+        for(Earthquake e: earthquakes){
+            Log.d(TAG, "add: " + e.toString());
+            quakeList.add(e);
+            this.notifyDataSetChanged();
+        }
     }
 }

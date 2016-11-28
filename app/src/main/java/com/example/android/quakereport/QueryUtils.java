@@ -101,7 +101,7 @@ public final class QueryUtils {
      * Returns new URL object from the given string URL.
      */
     private static URL createUrl(String stringUrl) {
-        Log.d(TAG, "createUrl: ");
+        Log.d(TAG, "createUrl: " + stringUrl);
         URL url = null;
         try {
             url = new URL(stringUrl);
