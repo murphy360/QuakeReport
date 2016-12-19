@@ -16,8 +16,11 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +28,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -41,6 +46,8 @@ public class EarthquakeActivity extends AppCompatActivity
 
     private ListView earthquakeListView;
     private EarthquakeListViewAdapter adapter;
+    private TextView emptyView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +55,11 @@ public class EarthquakeActivity extends AppCompatActivity
         setContentView(R.layout.earthquake_activity);
 
 
-        getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID,null,this).forceLoad();
+        emptyView = (TextView) findViewById(R.id.emptytext);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         earthquakeListView = (ListView) findViewById(R.id.list);
+        earthquakeListView.setEmptyView(emptyView);
 
         // Create a new {@link ArrayAdapter} of earthquakes
         adapter = new EarthquakeListViewAdapter(
@@ -72,6 +81,13 @@ public class EarthquakeActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        if(isNetworkConnected()){
+            getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID,null,this).forceLoad();
+        }else{
+            progressBar.setVisibility(View.GONE);
+            emptyView.setText("No Network Connectivity");
+        }
     }
 
     private void updateUI(ArrayList<Earthquake> earthquakes) {
@@ -95,7 +111,11 @@ public class EarthquakeActivity extends AppCompatActivity
         if (earthquakes != null && !earthquakes.isEmpty()) {
             Log.d(TAG, "onLoadFinished: " + earthquakes.size());
             updateUI(earthquakes);
+        }else{
+            emptyView.setText("No Earthquakes Returned");
         }
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -103,6 +123,13 @@ public class EarthquakeActivity extends AppCompatActivity
         // Loader reset, so we can clear out our existing data.
         Log.d(TAG, "onLoaderReset: ");
         adapter.clear();
+    }
+
+    private boolean isNetworkConnected(){
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
 }

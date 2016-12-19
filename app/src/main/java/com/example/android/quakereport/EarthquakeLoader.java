@@ -30,6 +30,8 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Earthquake>> {
     public ArrayList<Earthquake> loadInBackground() {
         ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes(mUrl);
         Log.d(TAG, "loadInBackground: ");
+        //earthquakes.clear();//TODO TEST LINE if no earthquakes returned.
+
         return earthquakes;
     }
 }
